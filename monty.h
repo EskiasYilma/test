@@ -1,12 +1,12 @@
 #ifndef _MONTY_H_
 #define _MONTY_H_
-#define  _POSIX_C_SOURCE 200809L
+
+#define _POSIX_C_SOURCE  200809L
 #include <stdio.h>
 #include <sys/types.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
@@ -16,9 +16,13 @@
 /*extern variable, stack or queue*/
 
 extern char *flag;
+char *argv;
+unsigned int line_number;
+char *opcode;
+
 
 #define BUF_LENGTH 1024
-
+#define DELIM " \t\n"
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -49,13 +53,12 @@ typedef struct instruction_s
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-void push(stack_t **s, unsigned int line_number, char *num);
+void read_n_tokenize(FILE *input);
+void (*exec_func(char *opcode))(stack_t **stack, unsigned int line_number);
+void push(stack_t **stack, unsigned int line_number);
+void pall(stack_t **stack, unsigned int line_number);
+void free_dlistint(stack_t *head);
 
-void pall(stack_t **s, unsigned int line_number);
 
-void execute(stack_t **h, char *line, unsigned int line_number);
-void free_stack(stack_t *h);
-void flush_buffer(char *buffer, size_t size);
-void fill_buffer(char **buf, size_t *size, char c, size_t index);
 
 #endif
