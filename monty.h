@@ -12,13 +12,13 @@
 #include <string.h>
 #include <errno.h>
 #include <stddef.h>
-
+#include <ctype.h>
 /*extern variable, stack or queue*/
 
 extern char *flag;
-char *argv;
-unsigned int line_number;
-char *opcode;
+char *gl_argv;
+unsigned int gl_line_number;
+char *gl_opcode;
 
 
 #define BUF_LENGTH 1024
@@ -58,7 +58,14 @@ void (*exec_func(char *opcode))(stack_t **stack, unsigned int line_number);
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 void free_dlistint(stack_t *head);
+int _isdigit(void);
 
 
+/* Doubly linked lists operations */
+stack_t *add_dnodeint(stack_t **head, const int n);
+size_t print_dlistint(const stack_t *h);
 
+
+/* Error Modules */
+void print_error(unsigned int line_number);
 #endif
