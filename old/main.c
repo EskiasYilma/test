@@ -140,7 +140,32 @@ void execute(stack_t **h, char *line, unsigned int line_number) {
     exit(EXIT_FAILURE);
 }
 
+int push(stack_t **h, char *line, unsigned int l)
+{
+    char *start_n;
+    stack_t *node;
 
+    start_n = reach_number(line);
+    if (start_n == NULL)
+    {
+        printf("L%d: usage: push integer\n", l);
+        free(line);
+        return (-1);
+    };
+
+    if (_strcmp(flag, "stack") == 0)
+        node = add_node(h, atoi(start_n));
+    else
+        node = add_node_end(h, atoi(start_n));
+
+    free(line);
+    if (node == NULL)
+    {
+        puts("Error: malloc failed");
+        return (-1);
+    }
+    return (0);
+}
 
 
 

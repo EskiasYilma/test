@@ -49,13 +49,12 @@ typedef struct instruction_s
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-void push(stack_t **s, unsigned int line_number);
+void push(stack_t **s, unsigned int line_number, char *num);
 
 void pall(stack_t **s, unsigned int line_number);
 
 void execute(stack_t **h, char *line, unsigned int line_number);
 void free_stack(stack_t *h);
-ssize_t _getline(char **buf, size_t *size, FILE *stream);
 void flush_buffer(char *buffer, size_t size);
 void fill_buffer(char **buf, size_t *size, char c, size_t index);
 
