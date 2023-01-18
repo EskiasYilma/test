@@ -24,7 +24,7 @@ void (*exec_func(char *opcode))(stack_t **stack, unsigned int line_number)
 		}
 		i++;
 	}
-	code_in = glob_vars.opcode, l = glob_vars.line_number;
+	code_in = gl_opcode, l = gl_line_number;
 	dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", l, code_in);
 	exit(EXIT_FAILURE);
 }

@@ -10,11 +10,11 @@ int _isdigit(void)
 	int i;
 
 	i = 0;
-	if (glob_vars.argv[0] == '-')
+	if (gl_argv[0] == '-')
 		i++;
-	while (glob_vars.argv[i])
+	while (gl_argv[i])
 	{
-		if (!isdigit(glob_vars.argv[i]))
+		if (!isdigit(gl_argv[i]))
 			return (0);
 		i++;
 	}

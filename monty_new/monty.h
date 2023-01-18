@@ -1,5 +1,6 @@
 #ifndef _MONTY_H_
 #define _MONTY_H_
+
 #define _POSIX_C_SOURCE  200809L
 #include <stdio.h>
 #include <string.h>
@@ -43,22 +44,11 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/**
- * struct global_s - line in the bytecode file with attrs
- * @opcode: opcode
- * @argv: Argunment vector
- * @line_number: line number in the file
- *
- * Description: global variables alternative as a struct
- */
-typedef struct global_s
-{
-	char *opcode;
-	char *argv;
-	unsigned int line_number;
-} global_t;
-extern global_t glob_vars;
-global_t glob_vars;
+
+char *gl_argv;
+unsigned int gl_line_number;
+char *gl_opcode;
+FILE *byte_file;
 
 /* Read file and tokenize Module */
 void read_n_tokenize(FILE *input);

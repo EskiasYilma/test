@@ -12,7 +12,7 @@ void read_n_tokenize(FILE *input)
 	int i, j = 1;
 	stack_t *head = NULL;
 
-	glob_vars.opcode = NULL;
+	gl_opcode = NULL;
 	lineptr = fgets(tokens, 1024, input);
 	while (!feof(input))
 	{
@@ -24,26 +24,26 @@ void read_n_tokenize(FILE *input)
 			{
 				if (token[0] == '#')
 				{
-					glob_vars.opcode = "#";
+					gl_opcode = "#";
 					j--;
 				}
 				else
-					glob_vars.opcode = token;
-				glob_vars.line_number = j;
+					gl_opcode = token;
+				gl_line_number = j;
 			}
 			if (i == 1)
 			{
-				glob_vars.argv = token;
+				gl_argv = token;
 			}
 			token = strtok(NULL, DELIM);
 			i++;
 		}
-		if (glob_vars.opcode)
+		if (gl_opcode)
 		{
-			exec_func(glob_vars.opcode)(&head, glob_vars.line_number);
+			exec_func(gl_opcode)(&head, gl_line_number);
 		}
-		glob_vars.argv = NULL;
-		glob_vars.opcode = NULL, j++;
+		gl_argv = NULL;
+		gl_opcode = NULL, j++;
 		lineptr = fgets(tokens, 1024, input);
 	}
 	free_dlistint(head);

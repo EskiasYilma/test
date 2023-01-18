@@ -1,10 +1,10 @@
 #include "monty.h"
 /**
- * main - entre point
- * @argc: Amount of input arguments
- * @argv: Array of arguments
+ * main - entry point
+ * @argc: arguement count
+ * @argv: arguement vector
  *
- * Return: (0) exit successful
+ * Return: 0 (SUCCESS)
  */
 
 int main(int argc, char *argv[])
