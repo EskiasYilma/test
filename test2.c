@@ -56,14 +56,11 @@ int main(int argc, char *argv[])
 void read_n_tokenize(FILE *input)
 {
     char *lineptr = NULL, *token = NULL, tokens[1024];
-    size_t len = 0;
-    int bytes_read = 0, i, j=1;
+    int i, j=1;
     stack_t *head = NULL;
 
     gl_opcode = NULL;
 
-    (void) len;
-    (void) bytes_read;
     lineptr = fgets(tokens, 1024, input);
     while (!feof(input))
     {
@@ -73,7 +70,6 @@ void read_n_tokenize(FILE *input)
         {
             if (i == 0)
             {
-                /* dont mind this part -- */
                 if (token[0] == '#')
                 {
                     gl_opcode = "#";
@@ -82,7 +78,6 @@ void read_n_tokenize(FILE *input)
 
                 else
                     gl_opcode = token;
-                /* till this part for now */
                 gl_line_number = j;
             }
             if (i == 1)
@@ -112,6 +107,7 @@ void (*exec_func(char *opcode))(stack_t **stack, unsigned int line_number)
     instruction_t valid_code[] = {
         {"push", push},
         {"pall", pall},
+        {"pint", pint},
         {NULL, NULL}
     };
 
@@ -137,22 +133,31 @@ void push(stack_t **stack, unsigned int line_number)
         add_dnodeint(stack, atoi(gl_argv));
         return;
     }
-    dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", gl_line_number);
+    dprintf(STDERR_FILENO, "L%d: usage: push integer\n", gl_line_number);
     exit(EXIT_FAILURE);
 }
-
-/**
- * pall - function to print elements of linked list
- * @stack: pointer to head of stack
- * @line_number: number of the line in the bytecode file
- * Return: Nothing
- */
 
 void pall(stack_t **stack, unsigned int line_number)
 {
     (void) line_number;
     print_dlistint(*stack);
 }
+
+void pint(stack_t **stack, unsigned int line_number)
+{
+    (void)line_number;
+
+    if (stack && *stack)
+        pr_head(*stack);
+    else
+    {
+        fclose(byte_file);
+        dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n",
+                gl_line_number);
+        exit(EXIT_FAILURE);
+    }
+}
+
 
 /**
  * free_dlistint - adds a new node at the end of 'dlistint_t' list
@@ -225,7 +230,17 @@ size_t print_dlistint(const stack_t *h)
     return (count);
 }
 
+/**
+ * pr_head - print first elements of linked list
+ * @h: pointer to node
+ * Return: void
+ */
+void  pr_head(const stack_t *head)
+{
+    const stack_t *tmp = head;
 
+    printf("%d\n", tmp->n);
+}
 
 int _isdigit(void)
 {
