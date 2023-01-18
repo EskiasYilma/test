@@ -1,5 +1,4 @@
 #include "monty.h"
-
 /**
  * main - entre point
  * @argc: Amount of input arguments
