@@ -13,16 +13,29 @@
 #include <errno.h>
 #include <stddef.h>
 #include <ctype.h>
-/*extern variable, stack or queue*/
-
-extern char *flag;
-char *gl_argv;
-unsigned int gl_line_number;
-char *gl_opcode;
-
 
 #define BUF_LENGTH 1024
 #define DELIM " \t\n"
+
+/**
+ * struct global_s - line in the bytecode file with attrs
+ * @opcode: opcode
+ * @argv: Argunment vector
+ * @line_number: line number in the file
+ *
+ * Description: global variables alternative as a struct
+ */
+typedef struct global_s
+{
+        FILE *file_i;
+        char *opcode;
+        char *argv;
+        unsigned int line_number;
+} global_t;
+extern global_t glob_vars;
+global_t glob_vars;
+
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -57,14 +70,13 @@ void read_n_tokenize(FILE *input);
 void (*exec_func(char *opcode))(stack_t **stack, unsigned int line_number);
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
-void free_dlistint(stack_t *head);
 int _isdigit(void);
 
 
 /* Doubly linked lists operations */
 stack_t *add_dnodeint(stack_t **head, const int n);
 size_t print_dlistint(const stack_t *h);
-
+void free_dlistint(stack_t *head);
 
 /* Error Modules */
 void print_error(unsigned int line_number);
